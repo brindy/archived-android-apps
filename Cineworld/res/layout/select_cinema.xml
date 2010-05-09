@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ignore="ignore these attributes" android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:paddingLeft="6px" android:paddingRight="6px"
+	android:background="#b72016">
+
+	<ImageView android:src="@drawable/logo" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:paddingBottom="10px" />
+
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:background="#FFFFFF" android:padding="2px">
+
+		<TextView android:text="Select Cinema" android:textColor="#447caa"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:gravity="center" android:textSize="22px"
+			android:paddingBottom="3px" />
+
+		<TextView android:text="Cinemas" android:textColor="#FFFFFF"
+			android:background="#447caa" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:textSize="18px" android:paddingLeft="6px"
+			android:paddingRight="6px" android:paddingBottom="6px" />
+
+		<ListView android:id="@android:id/list" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:background="#447caa" 
+			android:clickable="true" />
+
+		<LinearLayout android:id="@android:id/empty"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:gravity="center" android:padding="15px" android:orientation="vertical">
+
+			<ProgressBar android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:indeterminateOnly="true" />
+
+			<TextView android:text="Loading cinema list... please wait..."
+				android:textColor="#447caa" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:gravity="center" />
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>

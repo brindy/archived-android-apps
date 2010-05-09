@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:gravity="center">
+
+	<TableLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+		<TableRow>
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D100" android:onClick="rollDice" android:tag="100"
+				android:padding="10sp" />
+
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D20" android:onClick="rollDice" android:tag="20"
+				android:padding="10sp" />
+
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D12" android:onClick="rollDice" android:tag="12"
+				android:padding="10sp" />
+
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D10" android:onClick="rollDice" android:tag="10"
+				android:padding="10sp" />
+		</TableRow>
+
+		<TableRow>
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D8" android:onClick="rollDice" android:tag="8"
+				android:padding="10sp" />
+
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D6" android:onClick="rollDice" android:tag="6"
+				android:padding="10sp" />
+
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D4" android:onClick="rollDice" android:tag="4"
+				android:padding="10sp" />
+
+			<Button android:layout_width="64sp" android:layout_height="64sp"
+				android:text="D?" android:onClick="rollDice" android:tag="x"
+				android:padding="10sp" />
+		</TableRow>
+
+	</TableLayout>
+
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1">
+		<TextView android:id="@+id/diceroll_output"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:hint="Start pressing dice buttons to begin." />
+	</ScrollView>
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<Button android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:text="Reset" android:onClick="rollDice" android:tag="reset" />
+
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Undo"
+			android:onClick="rollDice" android:tag="u" />
+
+	</LinearLayout>
+
+</LinearLayout>

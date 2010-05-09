@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:id="@+id/thewidget"
+	android:background="@drawable/widgetborder" android:clickable="true"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:gravity="right" android:padding="8px">
+
+	<LinearLayout android:id="@+id/widgetHelp"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:gravity="center_horizontal"
+		android:visibility="gone">
+
+		<ImageView android:src="@drawable/cineworldtitle"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+		<TextView android:id="@+id/helpText" android:text="Please wait..."
+			android:textColor="#FFFFFF" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:gravity="center" />
+
+	</LinearLayout>
+
+	<LinearLayout android:id="@+id/filmInfo"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+			<ImageView android:id="@+id/filmImage"
+				android:layout_width="34px" android:layout_height="50px"
+				android:background="#343434" />
+
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="fill_parent" android:visibility="visible"
+				android:gravity="right" android:layout_height="wrap_content">
+
+				<ImageView android:src="@drawable/cineworldtitle"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_gravity="center" android:layout_weight="1" />
+
+				<TextView android:id="@+id/filmLocation"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:textColor="#FFFFFF" android:text="" android:textSize="10px"
+					android:paddingRight="5px" android:gravity="right" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:gravity="bottom">
+
+			<TextView android:id="@+id/filmName" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:textColor="#FFFFFF"
+				android:paddingTop="5px" android:paddingBottom="5px" android:text="Please wait..."
+				android:textSize="18px" android:gravity="center"
+				android:layout_weight="1" />
+
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:gravity="center_horizontal">
+
+				<TextView android:id="@+id/showingNext1"
+					android:paddingTop="3px" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:textColor="#FFFFFF"
+					android:text="" android:textSize="12px" android:paddingRight="6px" />
+
+				<TextView android:id="@+id/showingNext2"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:paddingTop="3px" android:textColor="#FFFFFF" android:text=""
+					android:textSize="12px" />
+
+			</LinearLayout>
+
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:paddingTop="6px">
+
+				<ImageView android:id="@+id/widget_prev" android:src="@drawable/widget_prev"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_gravity="left" android:layout_weight="1"
+					android:clickable="true" />
+
+				<ImageView android:id="@+id/widget_go" android:src="@drawable/widget_open"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_gravity="center" android:layout_weight="1"
+					android:clickable="true" />
+
+				<ImageView android:id="@+id/widget_next" android:src="@drawable/widget_next"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_gravity="right" android:layout_weight="1"
+					android:clickable="true" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+
+</LinearLayout>

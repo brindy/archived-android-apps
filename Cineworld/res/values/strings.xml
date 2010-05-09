@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World!</string>
+	<string name="app_name">Cineworld</string>
+	<string name="select_cinema">Select Cinema</string>
+	<string name="azSort">A-Z Sort</string>
+	<string name="timeSort">Sort By Time</string>
+	<string name="sortedByName">sorted by name</string>
+	<string name="sortedByTime">sorted by time</string>
+</resources>

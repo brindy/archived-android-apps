@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:paddingLeft="6px"
+	android:paddingRight="6px" android:background="#b72016">
+
+	<ImageView android:src="@drawable/logo" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:paddingBottom="10px" />
+
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:background="#FFFFFF" android:padding="2px">
+
+		<TextView android:id="@+id/filmLocation" android:text="Location"
+			android:textColor="#447caa" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:textSize="22px" android:paddingBottom="3px" />
+
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:text="Next 7 Days" android:textColor="#FFFFFF"
+				android:background="#447caa" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:gravity="center"
+				android:textSize="18px" android:paddingLeft="6px"
+				android:paddingRight="6px" android:paddingBottom="6px" />
+
+			<TextView android:id="@+id/sortTypeText" android:text="use menu to sort"
+				android:textColor="#447caa" android:background="#FFFFFF"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:gravity="right" android:textSize="18px"
+				android:paddingLeft="6px" android:paddingRight="6px"
+				android:paddingBottom="6px" android:layout_weight="1" />
+		</LinearLayout>
+
+		<ExpandableListView android:id="@android:id/list"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+		<LinearLayout android:id="@android:id/empty"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:gravity="center" android:padding="15px" android:orientation="vertical">
+
+			<ProgressBar android:layout_width="30px"
+				android:layout_height="30px" android:indeterminateOnly="true" />
+
+			<TextView android:text="Loading film list... please wait..."
+				android:textColor="#447caa" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:gravity="center" />
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
