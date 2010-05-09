@@ -40,10 +40,6 @@ public class FilmListParser {
 		while (null != (line = reader.readLine())) {
 			line = line.trim();
 
-			if (line.contains("film=")) {
-				System.out.println(line);
-			}
-
 			Matcher m = filmDetailPattern.matcher(line);
 			if (m.find()) {
 				Film film = new Film();

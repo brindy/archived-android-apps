@@ -141,11 +141,8 @@ public class FilmListManager {
 
 				HttpURLConnection conn = (HttpURLConnection) u.openConnection();
 				conn.setInstanceFollowRedirects(false);
-				conn.setRequestProperty("User-Agent", "Mozilla/4.0  ( compatible ) ");
-
-				int code = conn.getResponseCode();
-				String msg = conn.getResponseMessage();
-				System.out.println("response (" + code + ") : " + msg);
+				conn.setRequestProperty("User-Agent",
+						"Mozilla/4.0  ( compatible ) ");
 
 				mFilms = new FilmListParser(new Date()).parse(conn
 						.getInputStream());

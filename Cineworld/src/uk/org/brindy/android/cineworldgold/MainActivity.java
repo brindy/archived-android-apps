@@ -28,6 +28,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
@@ -66,6 +69,8 @@ public class MainActivity extends Activity
 
 	private ExpandableListView mList;
 
+	private ImageView mLogo;
+
 	private View mEmpty;
 
 	public MainActivity() {
@@ -76,6 +81,8 @@ public class MainActivity extends Activity
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		mLogo = (ImageView) findViewById(R.id.logo);
 
 		mList = (ExpandableListView) findViewById(android.R.id.list);
 		mList.setVisibility(View.GONE);
@@ -103,6 +110,29 @@ public class MainActivity extends Activity
 
 	public void updateStatus(String msg) {
 		// no-op
+	}
+
+	public void onLogoClick(View view) {
+		Animation animation = new TranslateAnimation(0.0f, 0.0f, 0.0f, -120.0f);
+		animation.setDuration(500);
+		animation.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mLogo.setVisibility(View.GONE);
+			}
+		});
+		mLogo.setAnimation(animation);
+		mLogo.startAnimation(animation);
+
 	}
 
 	public void error() {

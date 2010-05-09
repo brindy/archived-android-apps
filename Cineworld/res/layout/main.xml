@@ -4,10 +4,11 @@
 	android:layout_height="fill_parent" android:paddingLeft="6px"
 	android:paddingRight="6px" android:background="#b72016">
 
-	<ImageView android:src="@drawable/logo" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:paddingBottom="10px" />
+	<ImageView android:id="@+id/logo" android:src="@drawable/logo"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:paddingBottom="10px" android:clickable="true" android:onClick="onLogoClick" />
 
-	<LinearLayout android:orientation="vertical"
+	<LinearLayout android:id="@+id/content" android:orientation="vertical"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:background="#FFFFFF" android:padding="2px">
 
@@ -27,9 +28,9 @@
 			<TextView android:id="@+id/sortTypeText" android:text="use menu to sort"
 				android:textColor="#447caa" android:background="#FFFFFF"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:gravity="right" android:textSize="18px"
-				android:paddingLeft="6px" android:paddingRight="6px"
-				android:paddingBottom="6px" android:layout_weight="1" />
+				android:gravity="right" android:textSize="18px" android:paddingLeft="6px"
+				android:paddingRight="6px" android:paddingBottom="6px"
+				android:layout_weight="1" />
 		</LinearLayout>
 
 		<ExpandableListView android:id="@android:id/list"
