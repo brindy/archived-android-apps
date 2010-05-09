@@ -21,7 +21,7 @@ public class FilmListParser {
 			.compile("film=(\\d+)\"><img alt=\"([^\"]+)\" src=\"([^\"]+)\" /></a>");
 
 	private Pattern filmTimePattern = Pattern
-			.compile("performance=([^\"]+)\">([^:]+):([^<]+)");
+			.compile("performance=([^\"]+)\">([^:]+):(\\d\\d)");
 
 	private SimpleDateFormat filmDateParser = new SimpleDateFormat(
 			"'<dt>'EEE dd MMM'</dt>'");

@@ -12,12 +12,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import uk.org.brindy.android.cineworldgold.support.BinaryCache;
 import uk.org.brindy.android.cineworldgold.support.Cinema;
 import uk.org.brindy.android.cineworldgold.support.Film;
 import uk.org.brindy.android.cineworldgold.support.FilmListParser;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -26,8 +23,6 @@ public class FilmListManager {
 	private static final int TIMEOUT = 1000 * 60 * 60 * 24;
 
 	private static final NullListener NULL_LISTENER = new NullListener();
-
-	private BinaryCache mBinaryCache;
 
 	private Listener mListener;
 
@@ -39,14 +34,12 @@ public class FilmListManager {
 
 	private File mObjects;
 
-	public FilmListManager(File dataDir, BinaryCache binaryCache) {
-		this(dataDir, NULL_LISTENER, binaryCache);
+	public FilmListManager(File dataDir) {
+		this(dataDir, NULL_LISTENER);
 	}
 
 	@SuppressWarnings("unchecked")
-	public FilmListManager(File dataDir, Listener listener,
-			BinaryCache binaryCache) {
-		this.mBinaryCache = binaryCache;
+	public FilmListManager(File dataDir, Listener listener) {
 		this.mListener = listener;
 
 		mObjects = new File(dataDir, getClass().getName());
@@ -113,9 +106,6 @@ public class FilmListManager {
 		public void error() {
 		}
 
-		public void setFilmImage(Film arg0, Bitmap arg1) {
-		}
-
 		public void setFilmList(List<Film> arg0) {
 		}
 
@@ -175,44 +165,6 @@ public class FilmListManager {
 			}
 
 			mListener.setFilmList(mFilms);
-			mBinaryCache.clear();
-			new FilmImageBackgroundLoader(mFilms).execute();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private final class FilmImageBackgroundLoader extends AsyncTask {
-		private final List<Film> films;
-
-		private FilmImageBackgroundLoader(List<Film> films) {
-			this.films = films;
-		}
-
-		@Override
-		protected Object doInBackground(Object... params) {
-			for (Film film : films) {
-				try {
-					mBinaryCache.addBinary(String.valueOf(film.id), new URL(
-							"http://www.cineworld.co.uk" + film.image)
-							.openStream());
-				} catch (Exception e) {
-					// ignore
-				}
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Object result) {
-			try {
-				for (Film film : films) {
-					mListener.setFilmImage(film, BitmapFactory
-							.decodeStream(mBinaryCache.getBinary(String
-									.valueOf(film.id))));
-				}
-			} catch (IOException e) {
-				// ignore
-			}
 		}
 	}
 
@@ -237,16 +189,6 @@ public class FilmListManager {
 		 * @param films
 		 */
 		void setFilmList(List<Film> films);
-
-		/**
-		 * Set the image of a film.
-		 * 
-		 * @param film
-		 *            the film
-		 * @param bmp
-		 *            the image
-		 */
-		void setFilmImage(Film film, Bitmap bmp);
 
 	}
 

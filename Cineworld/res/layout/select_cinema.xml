@@ -24,15 +24,15 @@
 			android:paddingRight="6px" android:paddingBottom="6px" />
 
 		<ListView android:id="@android:id/list" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:background="#447caa" 
+			android:layout_height="wrap_content" android:background="#447caa"
 			android:clickable="true" />
 
 		<LinearLayout android:id="@android:id/empty"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:gravity="center" android:padding="15px" android:orientation="vertical">
 
-			<ProgressBar android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:indeterminateOnly="true" />
+			<ProgressBar android:layout_width="100px"
+				android:layout_height="100px" android:indeterminateOnly="true" />
 
 			<TextView android:text="Loading cinema list... please wait..."
 				android:textColor="#447caa" android:layout_width="fill_parent"

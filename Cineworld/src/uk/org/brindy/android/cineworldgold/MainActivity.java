@@ -1,15 +1,17 @@
 package uk.org.brindy.android.cineworldgold;
 
-import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.org.brindy.android.cineworldgold.FilmListManager.Listener;
 import uk.org.brindy.android.cineworldgold.SettingsManager.SortFilmsBy;
-import uk.org.brindy.android.cineworldgold.support.BinaryCache;
 import uk.org.brindy.android.cineworldgold.support.Cinema;
 import uk.org.brindy.android.cineworldgold.support.Film;
 import uk.org.brindy.android.cineworldgold.support.Showing;
@@ -21,8 +23,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,11 +33,11 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,11 +55,11 @@ public class MainActivity extends Activity
 	private SimpleDateFormat mShowingsDateFormatter = new SimpleDateFormat(
 			"EEE dd MMM");
 
+	public static Map<String, Bitmap> cache = new HashMap<String, Bitmap>();
+
 	private FilmListManager mFilmListManager;
 
 	private SettingsManager mSettingsManager;
-
-	private BinaryCache mBinaryCache;
 
 	private List<Film> mFilms;
 
@@ -93,9 +95,8 @@ public class MainActivity extends Activity
 		mSettingsManager = new SettingsManager(getDir("data",
 				Context.MODE_PRIVATE));
 
-		mBinaryCache = new BinaryCache(getCacheDir());
 		mFilmListManager = new FilmListManager(getDir("data",
-				Context.MODE_PRIVATE), this, mBinaryCache);
+				Context.MODE_PRIVATE), this);
 
 		applySortText();
 
@@ -110,6 +111,13 @@ public class MainActivity extends Activity
 
 	public void updateStatus(String msg) {
 		// no-op
+	}
+
+	public void onShowingEntryClick(View view) {
+		Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri
+				.parse("https://www.cineworld.co.uk/mobile/"
+						+ "booking?performance=" + view.getTag()));
+		startActivity(myIntent);
 	}
 
 	public void onLogoClick(View view) {
@@ -138,25 +146,12 @@ public class MainActivity extends Activity
 	public void error() {
 		Toast.makeText(
 				this,
-				"Unable to connect to server.  "
-						+ "Please check settings and try again later.",
-				Toast.LENGTH_LONG).show();
+				"Problem reading information from server."
+						+ " Please try again alter.", Toast.LENGTH_LONG).show();
 		finish();
 	}
 
 	public void setFilmImage(Film film, Bitmap bmp) {
-		ExpandableListView view = (ExpandableListView) findViewById(android.R.id.list);
-
-		int index = mFilms.indexOf(film);
-		if (index >= 0 && index < view.getChildCount()) {
-			ImageView filmImage = (ImageView) view.getChildAt(index)
-					.findViewById(R.id.filmImage);
-			filmImage.setImageBitmap(bmp);
-			view.getChildAt(index).findViewById(R.id.withoutImage)
-					.setVisibility(View.GONE);
-			view.getChildAt(index).findViewById(R.id.withImage).setVisibility(
-					View.VISIBLE);
-		}
 
 	}
 
@@ -187,128 +182,8 @@ public class MainActivity extends Activity
 			public void run() {
 				applySortText();
 
-				mList.setAdapter(new BaseExpandableListAdapter() {
-
-					// group related
-
-					public View getGroupView(int groupPosition,
-							boolean isExpanded, View convertView,
-							ViewGroup parent) {
-						Film film = list.get(groupPosition);
-
-						// inflate the view...
-						View view = convertView;
-						if (null == view) {
-							view = View.inflate(context,
-									R.layout.filmlistentry, null);
-						}
-
-						// populate the items in the view...
-						ImageView filmImage = (ImageView) view
-								.findViewById(R.id.filmImage);
-						Bitmap bmp = null;
-						try {
-							bmp = BitmapFactory.decodeStream(mBinaryCache
-									.getBinary(String.valueOf(film.id)));
-
-							filmImage.setImageBitmap(bmp);
-						} catch (IOException e) {
-							Log.e("Cineworld", e.getMessage(), e);
-						}
-
-						if (null != bmp) {
-							view.findViewById(R.id.withoutImage).setVisibility(
-									View.GONE);
-							view.findViewById(R.id.withImage).setVisibility(
-									View.VISIBLE);
-						}
-
-						TextView filmName = (TextView) view
-								.findViewById(R.id.filmName);
-						filmName.setText(film.name);
-
-						TextView filmInfo = (TextView) view
-								.findViewById(R.id.filmInfo);
-						filmInfo.setTag(film.id);
-						filmInfo.setOnClickListener(MainActivity.this);
-
-						return view;
-					}
-
-					public Object getGroup(int groupPosition) {
-						return list.get(groupPosition);
-					}
-
-					public int getGroupCount() {
-						return list.size();
-					}
-
-					public long getGroupId(int groupPosition) {
-						return list.get(groupPosition).id;
-					}
-
-					// child related ...
-					public View getChildView(int groupPosition,
-							int childPosition, boolean isLastChild,
-							View convertView, ViewGroup parent) {
-
-						Showing[] showings = list.get(groupPosition)
-								.showingsPerDay(after).get(childPosition);
-
-						// inflate the view...
-						LinearLayout view = (LinearLayout) convertView;
-						if (null == view) {
-							view = (LinearLayout) View.inflate(context,
-									R.layout.showingsentry, null);
-						}
-
-						// populate the items in the view...
-						TextView showingDay = (TextView) view
-								.findViewById(R.id.showingDay);
-						showingDay.setText(mShowingsDateFormatter
-								.format(showings[0].date));
-
-						// add each showing to the grid
-						GridView showingTimes = (GridView) view
-								.findViewById(R.id.showingTimes);
-
-						int cols = parent.getWidth() / 70;
-
-						showingTimes.setNumColumns(cols);
-
-						showingTimes.setAdapter(new ShowingsListAdapter(
-								MainActivity.this, showings));
-
-						return view;
-					}
-
-					public Object getChild(int groupPosition, int childPosition) {
-						return list.get(groupPosition).showingsPerDay(after)
-								.get(childPosition);
-					}
-
-					public int getChildrenCount(int groupPosition) {
-						return list.get(groupPosition).showingsPerDay(after)
-								.size();
-					}
-
-					public long getChildId(int groupPosition, int childPosition) {
-						return list.get(groupPosition).showingsPerDay(after)
-								.get(childPosition).hashCode();
-					}
-
-					public boolean isChildSelectable(int groupPosition,
-							int childPosition) {
-						return true;
-					}
-
-					// other ...
-
-					public boolean hasStableIds() {
-						return false;
-					}
-
-				});
+				mList.setAdapter(new ExpandableFilmListAdapter(context, after,
+						list));
 
 			}
 		});
@@ -460,5 +335,202 @@ public class MainActivity extends Activity
 			return object1.name.compareTo(object2.name);
 		}
 	};
+
+	private final class ShowingsListAdapter extends ArrayAdapter<Showing> {
+		private ShowingsListAdapter(Context context, int textViewResourceId,
+				List<Showing> objects) {
+			super(context, textViewResourceId, objects);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView view = (TextView) super.getView(position, convertView,
+					parent);
+			view.setTag(this.getItem(position).id);
+			return view;
+		}
+	}
+
+	private final class ExpandableFilmListAdapter extends
+			BaseExpandableListAdapter {
+
+		private final Context context;
+		private final Date after;
+		private final List<Film> list;
+
+		private ExpandableFilmListAdapter(Context context, Date after,
+				List<Film> list) {
+			this.context = context;
+			this.after = after;
+			this.list = list;
+		}
+
+		// group related
+
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			final Film film = list.get(groupPosition);
+
+			// inflate the view...
+			View view = convertView;
+			if (null == view) {
+				view = View.inflate(context, R.layout.filmlistentry, null);
+			}
+
+			// populate the items in the view...
+			final ImageView filmImage = (ImageView) view
+					.findViewById(R.id.filmImage);
+			filmImage.setImageResource(R.drawable.icon);
+			filmImage.setTag(film.id);
+
+			new BackgroundImageFetcher(filmImage, film).execute();
+
+			TextView filmName = (TextView) view.findViewById(R.id.filmName);
+			filmName.setText(film.name);
+
+			TextView filmInfo = (TextView) view.findViewById(R.id.filmInfo);
+			filmInfo.setTag(film.id);
+			filmInfo.setOnClickListener(MainActivity.this);
+
+			return view;
+		}
+
+		public Object getGroup(int groupPosition) {
+			return list.get(groupPosition);
+		}
+
+		public int getGroupCount() {
+			return list.size();
+		}
+
+		public long getGroupId(int groupPosition) {
+			return list.get(groupPosition).id;
+		}
+
+		private View createShowingDateView(Showing s) {
+			TextView textView = (TextView) View.inflate(context,
+					R.layout.showingdate, null);
+			textView.setText(mShowingsDateFormatter.format(s.date));
+			return textView;
+		}
+
+		private View createShowingsView(Showing[] showings, int offset) {
+
+			GridView grid = (GridView) View.inflate(context,
+					R.layout.showinggrid, null);
+
+			List<Showing> rowShowings = new ArrayList<Showing>();
+
+			int i = 0;
+			while (i < 4 && (i + offset) < showings.length) {
+				rowShowings.add(showings[i + offset]);
+				i++;
+			}
+
+			ArrayAdapter<Showing> adapter = new ShowingsListAdapter(context,
+					R.layout.showingentry, rowShowings);
+			grid.setAdapter(adapter);
+
+			return grid;
+		}
+
+		// child related ...
+		public View getChildView(int groupPosition, int childPosition,
+				boolean isLastChild, View convertView, ViewGroup parent) {
+
+			int count = 0;
+			for (Showing[] showings : list.get(groupPosition).showingsPerDay(
+					after)) {
+
+				if (count == childPosition) {
+					// text view, current date
+					return createShowingDateView(showings[0]);
+				}
+				count++;
+
+				int showingRows = Math.max(1, (showings.length / 4));
+
+				for (int i = 0; i < showingRows; i++) {
+					if (count == childPosition) {
+						return createShowingsView(showings, i * 4);
+					}
+					count++;
+				}
+			}
+
+			return null;
+		}
+
+		public Object getChild(int groupPosition, int childPosition) {
+			return list.get(groupPosition).showingsPerDay(after).get(
+					childPosition);
+		}
+
+		public int getChildrenCount(int groupPosition) {
+
+			int count = 0;
+
+			for (Showing[] showings : list.get(groupPosition).showingsPerDay(
+					after)) {
+				count++;
+				int showingRows = Math.max(1, (showings.length / 4));
+				count += showingRows;
+			}
+
+			return count;
+		}
+
+		public long getChildId(int groupPosition, int childPosition) {
+			return (groupPosition + 1) * (childPosition + 1);
+		}
+
+		public boolean isChildSelectable(int groupPosition, int childPosition) {
+			return false;
+		}
+
+		// other ...
+
+		public boolean hasStableIds() {
+			return true;
+		}
+	}
+
+	private final class BackgroundImageFetcher extends
+			AsyncTask<Void, Void, Bitmap> {
+		private final ImageView filmImage;
+		private final Film film;
+
+		private BackgroundImageFetcher(ImageView filmImage, Film film) {
+			this.filmImage = filmImage;
+			this.film = film;
+		}
+
+		@Override
+		protected Bitmap doInBackground(Void... params) {
+			try {
+
+				Bitmap bmp = cache.get(film.image);
+				if (null == bmp) {
+					bmp = BitmapFactory.decodeStream(new URL(
+							"http://www.cineworld.co.uk" + film.image)
+							.openStream());
+					cache.put(film.image, bmp);
+				}
+
+				return bmp;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+
+		protected void onPostExecute(Bitmap result) {
+			if (null != result) {
+				Long tag = (Long) filmImage.getTag();
+				if (tag.equals(film.id)) {
+					filmImage.setImageBitmap(result);
+				}
+			}
+		}
+	}
 
 }

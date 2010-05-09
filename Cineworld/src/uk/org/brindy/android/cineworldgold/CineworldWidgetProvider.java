@@ -1,11 +1,10 @@
 package uk.org.brindy.android.cineworldgold;
 
-import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import uk.org.brindy.android.cineworldgold.support.BinaryCache;
 import uk.org.brindy.android.cineworldgold.support.Cinema;
 import uk.org.brindy.android.cineworldgold.support.Film;
 import uk.org.brindy.android.cineworldgold.support.Showing;
@@ -19,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -44,12 +44,12 @@ public class CineworldWidgetProvider extends AppWidgetProvider {
 		}
 	}
 
-	private static void doUpdate(Context context, WidgetState state,
-			RemoteViews views) {
+	@SuppressWarnings("unchecked")
+	private static void doUpdate(final Context context, WidgetState state,
+			final RemoteViews views) {
 
-		BinaryCache binaryCache = new BinaryCache(context.getCacheDir());
 		FilmListManager mgr = new FilmListManager(context.getDir("data",
-				Context.MODE_PRIVATE), binaryCache);
+				Context.MODE_PRIVATE));
 
 		List<Film> films = mgr.getFilmList();
 		if (films.isEmpty()) {
@@ -71,17 +71,39 @@ public class CineworldWidgetProvider extends AppWidgetProvider {
 			Cinema c = mgr.getCinema();
 			views.setTextViewText(R.id.filmLocation, c.name);
 
-			Film f = films.get(position);
+			final Film f = films.get(position);
 			views.setTextViewText(R.id.filmName, f.name);
-			Bitmap bmp;
-			try {
-				bmp = BitmapFactory.decodeStream(binaryCache.getBinary(String
-						.valueOf(f.id)));
-				if (null != bmp) {
-					views.setImageViewBitmap(R.id.filmImage, bmp);
-				}
-			} catch (IOException e) {
-				views.setImageViewResource(R.id.filmImage, R.drawable.icon);
+
+			// views.setImageViewBitmap(R.id.filmImage, bmp);
+			Bitmap bmp = MainActivity.cache.get(f.image);
+			if (null == bmp) {
+				new AsyncTask() {
+
+					@Override
+					protected Object doInBackground(Object... params) {
+						try {
+							return BitmapFactory.decodeStream(new URL(
+									"http://www.cineworld.co.uk" + f.image)
+									.openStream());
+						} catch (Exception e) {
+							return null;
+						}
+					}
+
+					@Override
+					protected void onPostExecute(Object result) {
+
+						if (null != result) {
+							views.setImageViewBitmap(R.id.filmImage,
+									(Bitmap) result);
+							updateWidget(context, views);
+						}
+
+					}
+
+				}.execute();
+			} else {
+				views.setImageViewBitmap(R.id.filmImage, bmp);
 			}
 
 			List<Showing> nextShowings = f.nextShowings(new Date(), 2);
@@ -119,12 +141,16 @@ public class CineworldWidgetProvider extends AppWidgetProvider {
 		addNextFilmHandler(context, views);
 
 		// update the app widget
+		updateWidget(context, views);
+
+		state.setLastUpdateTime(System.currentTimeMillis());
+	}
+
+	private static void updateWidget(Context context, RemoteViews views) {
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
 		appWidgetManager.updateAppWidget(new ComponentName(context,
 				CineworldWidgetProvider.class), views);
-
-		state.setLastUpdateTime(System.currentTimeMillis());
 	}
 
 	private static void addOpenAppHandler(Context context, RemoteViews views) {

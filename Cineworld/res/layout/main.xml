@@ -8,9 +8,10 @@
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:paddingBottom="10px" android:clickable="true" android:onClick="onLogoClick" />
 
-	<LinearLayout android:id="@+id/content" android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:background="#FFFFFF" android:padding="2px">
+	<LinearLayout android:id="@+id/content"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:background="#FFFFFF"
+		android:padding="2px">
 
 		<TextView android:id="@+id/filmLocation" android:text="Location"
 			android:textColor="#447caa" android:layout_width="fill_parent"
@@ -34,14 +35,15 @@
 		</LinearLayout>
 
 		<ExpandableListView android:id="@android:id/list"
-			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:divider="#b1cde4" android:childDivider="#b1cde4" />
 
 		<LinearLayout android:id="@android:id/empty"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:gravity="center" android:padding="15px" android:orientation="vertical">
 
-			<ProgressBar android:layout_width="30px"
-				android:layout_height="30px" android:indeterminateOnly="true" />
+			<ProgressBar android:layout_width="100px"
+				android:layout_height="100px" android:indeterminateOnly="true" />
 
 			<TextView android:text="Loading film list... please wait..."
 				android:textColor="#447caa" android:layout_width="fill_parent"
