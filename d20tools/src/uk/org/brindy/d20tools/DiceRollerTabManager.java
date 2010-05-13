@@ -2,11 +2,14 @@ package uk.org.brindy.d20tools;
 
 import java.util.Stack;
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class DiceRollerTabManager {
+
+	private Activity activity;
 
 	private Stack<Roll> history = new Stack<Roll>();
 
@@ -15,6 +18,7 @@ public class DiceRollerTabManager {
 	private int total;
 
 	public DiceRollerTabManager(TabActivity activity) {
+		this.activity = activity;
 		output = (TextView) activity.findViewById(R.id.diceroll_output);
 	}
 
@@ -35,12 +39,16 @@ public class DiceRollerTabManager {
 		if ("reset".equals(tag)) {
 			reset();
 		} else if ("x".equals(tag)) {
-			// promptForValue();
+			promptForDice();
 		} else if ("u".equals(tag)) {
 			undo();
 		} else {
 			roll(Integer.parseInt(tag));
 		}
+	}
+
+	private void promptForDice() {
+		activity.showDialog(InitialActivity.DIALOG_DICEPROMPT);
 	}
 
 	private void undo() {
