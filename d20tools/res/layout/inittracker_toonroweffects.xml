@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:padding="3sp">
+
+	<ImageView android:id="@+id/init_tooneffectimage"
+		android:layout_width="32sp" android:layout_height="32sp"
+		android:scaleType="fitXY" android:src='@drawable/clover' />
+
+	<TextView android:id="@+id/init_tooneffecttext"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:paddingLeft="20sp" android:paddingTop="20sp"
+		android:textColor="#FFFFFF" android:text="x" android:textStyle="bold" />
+
+</FrameLayout>

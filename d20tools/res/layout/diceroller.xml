@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:gravity="center">
+	android:orientation="vertical" android:gravity="center"
+	android:background="@drawable/parchment">
 
 	<TableLayout android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
 
 		<TableRow>
-			<Button android:layout_width="64sp" android:layout_height="64sp"
+			<ImageView android:src="@drawable/d100" android:layout_height="64sp"
 				android:text="D100" android:onClick="rollDice" android:tag="100"
 				android:padding="10sp" />
 
-			<Button android:layout_width="64sp" android:layout_height="64sp"
+			<ImageView android:src="@drawable/d20"
+				android:layout_width="64sp" android:layout_height="64sp"
 				android:text="D20" android:onClick="rollDice" android:tag="20"
 				android:padding="10sp" />
 
-			<Button android:layout_width="64sp" android:layout_height="64sp"
+			<ImageView android:src="@drawable/d12"
+				android:layout_width="64sp" android:layout_height="64sp"
 				android:text="D12" android:onClick="rollDice" android:tag="12"
 				android:padding="10sp" />
 
-			<Button android:layout_width="64sp" android:layout_height="64sp"
+			<ImageView android:src="@drawable/d10"
+				android:layout_width="64sp" android:layout_height="64sp"
 				android:text="D10" android:onClick="rollDice" android:tag="10"
 				android:padding="10sp" />
 		</TableRow>
 
 		<TableRow>
-			<Button android:layout_width="64sp" android:layout_height="64sp"
-				android:text="D8" android:onClick="rollDice" android:tag="8"
-				android:padding="10sp" />
+			<ImageView android:src="@drawable/d8" android:layout_width="64sp"
+				android:layout_height="64sp" android:text="D8" android:onClick="rollDice"
+				android:tag="8" android:padding="10sp" />
 
-			<Button android:layout_width="64sp" android:layout_height="64sp"
-				android:text="D6" android:onClick="rollDice" android:tag="6"
-				android:padding="10sp" />
+			<ImageView android:src="@drawable/d6" android:layout_width="64sp"
+				android:layout_height="64sp" android:text="D6" android:onClick="rollDice"
+				android:tag="6" android:padding="10sp" />
 
-			<Button android:layout_width="64sp" android:layout_height="64sp"
-				android:text="D4" android:onClick="rollDice" android:tag="4"
-				android:padding="10sp" />
+			<ImageView android:src="@drawable/d4" android:layout_width="64sp"
+				android:layout_height="64sp" android:text="D4" android:onClick="rollDice"
+				android:tag="4" android:padding="10sp" />
 
 			<Button android:layout_width="64sp" android:layout_height="64sp"
 				android:text="D?" android:onClick="rollDice" android:tag="x"
@@ -48,7 +52,8 @@
 		android:layout_height="fill_parent" android:layout_weight="1">
 		<TextView android:id="@+id/diceroll_output"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:hint="Start pressing dice buttons to begin." />
+			android:hint="Start pressing dice buttons to begin."
+			android:textColor="#FFFFFF" />
 	</ScrollView>
 
 	<LinearLayout android:layout_width="fill_parent"

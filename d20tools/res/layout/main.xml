@@ -10,12 +10,6 @@
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:paddingTop="64sp">
 
-		<include android:id="@+id/diceroll" layout="@layout/diceroll"
-			android:layout_width="fill_parent" android:layout_height="fill_parent" />
-
-		<include android:id="@+id/pointbuy" layout="@layout/pointbuy"
-			android:layout_width="fill_parent" android:layout_height="fill_parent" />
-
 	</FrameLayout>
 
 </TabHost>

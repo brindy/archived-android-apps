@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<EditText android:id="@+id/inittracker_toonedit_name"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:hint="Toon name" />
+
+	<EditText android:id="@+id/inittracker_toonedit_init"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:inputType="number" android:hint="Initiative" />
+
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<TableLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="vertical"
+			android:stretchColumns="0,1">
+
+			<TableRow>
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect1"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/anchor" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect2"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/badge" />
+				</LinearLayout>
+			</TableRow>
+
+			<TableRow>
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect3"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/beaker" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect4"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/circle" />
+				</LinearLayout>
+			</TableRow>
+
+			<TableRow>
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect5"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/cloud" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect6"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/cursor" />
+				</LinearLayout>
+			</TableRow>
+
+			<TableRow>
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect7"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/spraycan" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:padding="5sp">
+					<CheckBox android:id="@+id/inittracker_toonedit_effect8"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<ImageView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:src="@drawable/wheelchair" />
+				</LinearLayout>
+			</TableRow>
+
+		</TableLayout>
+
+	</ScrollView>
+</LinearLayout>
